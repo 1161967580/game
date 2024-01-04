@@ -1,7 +1,7 @@
 h1 {
 	text-align: center;
 	color: red;
-	font-size: 60px;
+	font-size: 30px;
 }
 body {
 	text-align: center;
@@ -10,19 +10,18 @@ body {
 	width: 100%;
 	border: 1px black solid;
 	min-height: 200px;
-	padding: 30px 50px;
-	font-size: 30px;
+	font-size: 15px;
 	color: black;
 }
 .core input {
-	font-size: 30px;
+	font-size: 15px;
 	width: 100px;
 	margin: 0 20px;
 	padding: 0;
 }
 .add {
 	color: black;
-	font-size: 30px;
+	font-size: 20px;
 	margin-top: 10px;
 }
 .jishu {
@@ -30,5 +29,5 @@ body {
 	opacity: 0;
 }
 .tm {
-	margin-top: 10px;
+	margin: 10px 0;
 }
