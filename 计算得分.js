@@ -1,21 +1,49 @@
 function core(obj) {
-	var divid = obj.name
+	var divid = obj.name;
 	var shuru = document.getElementById(divid).getElementsByClassName('shuru')[0].value;
-	shuru = Number(shuru);
+	shuru = shuru.trim()
+	if (shuru!='') {
+		shuru = Number(shuru);
+		if (shuru>-999999) {
+			var fenshu = document.getElementById(divid).getElementsByClassName('fenshu')[0];
+			var guocheng = fenshu.getAttribute('guocheng');
+			var zongfen = fenshu.getAttribute('data');
+			xzongfen = Number(zongfen)+shuru;
+			if (zongfen=='') {
+				fenshu.innerText = "得分："+shuru+"="+shuru;
+				guocheng = shuru;
+			}
+			else {
+				fenshu.innerText = "得分："+xzongfen+"="+guocheng+"+"+shuru;
+				guocheng = guocheng+"+"+shuru;
+			}
+			fenshu.setAttribute('guocheng',guocheng);
+			fenshu.setAttribute('data',xzongfen);
+		}
+		else {
+			alert('输入格式有误，请重新输入');
+
+		}
+		document.getElementById(divid).getElementsByClassName('shuru')[0].value = '';
+	}
+}
+
+function cancel(obj) {
+	var divid = obj.name;
 	var fenshu = document.getElementById(divid).getElementsByClassName('fenshu')[0];
-	var guocheng = fenshu.getAttribute('guocheng')
-	var zongfen = fenshu.getAttribute('data');
-	xzongfen = Number(zongfen)+shuru;
-	if (zongfen==0) {
-		fenshu.innerText = "得分："+shuru+"="+shuru;
-		guocheng = shuru;
+	var guocheng = fenshu.getAttribute('guocheng');
+	var lastg = guocheng.split('+');
+	lastg.pop();
+	var lastguocheng = '';
+	var lastzongfen = 0;
+	for (var i = 0; i < lastg.length; i++) {
+		lastguocheng = lastguocheng + '+' + lastg[i];
+		lastzongfen = lastzongfen + Number(lastg[i]);
 	}
-	else {
-		fenshu.innerText = "得分："+xzongfen+"="+guocheng+"+"+shuru;
-		guocheng = guocheng+"+"+shuru;
-	}
-	fenshu.setAttribute('guocheng',guocheng);
-	fenshu.setAttribute('data',xzongfen);
+	lastguocheng = lastguocheng.slice(1);
+	fenshu.setAttribute('guocheng',lastguocheng);
+	fenshu.setAttribute('data',lastzongfen);
+	fenshu.innerText = "得分：" + lastzongfen + '=' + lastguocheng;
 }
 
 function xuanshou() {
@@ -31,7 +59,7 @@ function xuanshou() {
 	var fenshu = document.createElement('span');
 	fenshu.innerText = "得分：0";
 	fenshu.className = 'fenshu';
-	fenshu.setAttribute('data','0')
+	fenshu.setAttribute('data','')
 	fenshu.setAttribute('guocheng','')
 	var shuru = document.createElement('input');
 	shuru.type = "text";
@@ -42,6 +70,12 @@ function xuanshou() {
 	jiafen.value = '加分';
 	jiafen.name = 'tm'+jishu;
 	jiafen.setAttribute('onclick','core(this);')
+	var chexiao = document.createElement('input');
+	chexiao.type = "button";
+	chexiao.className = 'chexiao';
+	chexiao.value = '撤销';
+	chexiao.name = 'tm'+jishu;
+	chexiao.setAttribute('onclick','cancel(this);')
 	var div2 = document.createElement('div');
 	div2.className = 'tm';
 	div2.id = 'tm'+jishu
@@ -50,6 +84,7 @@ function xuanshou() {
 	div2.appendChild(fenshu);
 	div2.appendChild(shuru);
 	div2.appendChild(jiafen);
+	div2.appendChild(chexiao);
 	div.appendChild(div2);
 	document.getElementsByClassName("jishu")[0].innerText = jishu;
 }
