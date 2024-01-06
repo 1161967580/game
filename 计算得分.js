@@ -29,21 +29,32 @@ function core(obj) {
 }
 
 function cancel(obj) {
-	var divid = obj.name;
-	var fenshu = document.getElementById(divid).getElementsByClassName('fenshu')[0];
-	var guocheng = fenshu.getAttribute('guocheng');
-	var lastg = guocheng.split('+');
-	lastg.pop();
-	var lastguocheng = '';
-	var lastzongfen = 0;
-	for (var i = 0; i < lastg.length; i++) {
-		lastguocheng = lastguocheng + '+' + lastg[i];
-		lastzongfen = lastzongfen + Number(lastg[i]);
+	var r = confirm('确认撤销吗？');
+	if (r==true) {
+		var divid = obj.name;
+		var fenshu = document.getElementById(divid).getElementsByClassName('fenshu')[0];
+		var guocheng = fenshu.getAttribute('guocheng');
+		var lastg = guocheng.split('+');
+		lastg.pop();
+		if (lastg == '') {
+			fenshu.setAttribute('guocheng','');
+			fenshu.setAttribute('data','');
+			fenshu.innerText = "得分：0";
+		}
+		else {
+			var lastguocheng = '';
+			var lastzongfen = 0;
+			for (var i = 0; i < lastg.length; i++) {
+				lastguocheng = lastguocheng + '+' + lastg[i];
+				lastzongfen = lastzongfen + Number(lastg[i]);
+			}
+			lastguocheng = lastguocheng.slice(1);
+			fenshu.setAttribute('guocheng',lastguocheng);
+			fenshu.setAttribute('data',lastzongfen);
+			fenshu.innerText = "得分：" + lastzongfen + '=' + lastguocheng;
+		}
+		document.getElementById(divid).getElementsByClassName('shuru')[0].value = '';
 	}
-	lastguocheng = lastguocheng.slice(1);
-	fenshu.setAttribute('guocheng',lastguocheng);
-	fenshu.setAttribute('data',lastzongfen);
-	fenshu.innerText = "得分：" + lastzongfen + '=' + lastguocheng;
 }
 
 function xuanshou() {
